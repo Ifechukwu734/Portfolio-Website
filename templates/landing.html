@@ -1,0 +1,334 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DevFolio — Portfolios for engineers, shipped in minutes</title>
+<meta name="description" content="DevFolio helps tech professionals build and host a portfolio without writing a frontend from scratch.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'landing_style.css' %}">
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="wrap">
+    <a href="/" class="brand"><span class="bracket">&lt;</span>DevFolio<span class="bracket">/&gt;</span></a>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">menu</button>
+    <ul class="nav-links">
+      <li><a href="#features">features</a></li>
+      <li><a href="#how-it-works">how it works</a></li>
+      <li><a href="/login/">log in</a></li>
+      <li><a href="/signup/" class="nav-signup">sign up</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-copy">
+      <p class="eyebrow">for tech professionals</p>
+      <h1 class="hero-heading">Ship a portfolio that reads like your <span class="role">best commit</span>.</h1>
+      <p class="hero-sub">Write your projects and experience in markdown, and publish to a custom domain. No frontend build required — DevFolio handles the site.</p>
+      <div class="hero-actions">
+        <a href="/signup/" class="btn btn-primary">Start free →</a>
+        <a href="#how-it-works" class="btn">See how it works</a>
+      </div>
+    </div>
+
+    <div class="terminal" aria-label="Product terminal demo">
+      <div class="terminal-bar">
+        <span class="terminal-dot red"></span>
+        <span class="terminal-dot yellow"></span>
+        <span class="terminal-dot green"></span>
+        <span class="terminal-title">~ — devfolio</span>
+      </div>
+      <div class="terminal-body">
+        <div class="terminal-line">
+          <span class="terminal-prompt">$</span> npx devfolio init
+          <span class="terminal-output"><span class="hl">✓</span> pulled profile from GitHub</span>
+        </div>
+        <div class="terminal-line">
+          <span class="terminal-output" data-type="✓ generated projects, experience, and about pages"></span>
+        </div>
+        <div class="terminal-line">
+          <span class="terminal-prompt">$</span> devfolio publish
+          <span class="terminal-output"><span class="hl">live at jordanellis.devfolio.dev</span><span class="cursor"></span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="stats">
+  <div class="wrap">
+    <div class="stat-strip">
+      <div class="stat-cell">
+        <span class="stat-number">4,200+</span>
+        <span class="stat-label">portfolios published</span>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-number">12 min</span>
+        <span class="stat-label">median time to first publish</span>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-number">98%</span>
+        <span class="stat-label">uptime on custom domains</span>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-number">2k+</span>
+        <span class="stat-label">Dev Users</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="features">
+  <div class="wrap">
+    <p class="eyebrow">features</p>
+    <h2>Everything a portfolio needs, none of the boilerplate.</h2>
+    <div class="feature-grid" style="margin-top: 32px;">
+      <div class="feature-card">
+        <div class="feature-icon">md</div>
+        <h3>Easy profile editor</h3>
+        <p>Create and update your portfolio using a simple, intuitive interface. No coding or technical knowledge required.</p>
+      </div>
+      <!-- <div class="feature-card">
+        <div class="feature-icon">gh</div>
+        <h3>GitHub-aware</h3>
+        <p>Connect a GitHub account to auto-import repo descriptions, languages, and stars into your project cards.</p>
+      </div> -->
+      <!-- <div class="feature-card">
+        <div class="feature-icon">@</div>
+        <h3>Custom domain</h3>
+        <p>Point your own domain at your portfolio with one DNS record. SSL and CDN caching included by default.</p>
+      </div> -->
+      <!-- <div class="feature-card">
+        <div class="feature-icon">▦</div>
+        <h3>Themeable layouts</h3>
+        <p>Choose from developer-built themes, or fork one and adjust tokens — colors, type, spacing — without touching layout code.</p>
+      </div> -->
+      <div class="feature-card">
+        <div class="feature-icon">↗</div>
+        <h3>Built-in analytics</h3>
+        <p>Track your portfolio's performance with insights into profile views, visitor activity, and messages from potential employers or clients.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⇄</div>
+        <h3>Instant publishing</h3>
+        <p>Publish your portfolio with a single click. Any changes you make are updated automatically, keeping your portfolio current at all times.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="how-it-works">
+  <div class="wrap">
+    <p class="eyebrow">how it works</p>
+    <h2>From zero to published in three steps.</h2>
+    <div class="steps-grid" style="margin-top: 32px;">
+      <div class="step-card">
+        <span class="step-number">01</span>
+        <h3>Build your profile</h3>
+        <p>Link your GitHub and LinkedIn accounts, and write down your details.  DevFolio organizes your profile into a clean, developer-friendly portfolio.</p>
+      </div>
+      <div class="step-card">
+        <span class="step-number">02</span>
+        <h3>Upload your projects</h3>
+        <p>Showcase your best work by adding project details, technologies used, screenshots, live demos, and repository links. Your projects are displayed in a polished, responsive layout.</p>
+      </div>
+      <div class="step-card">
+        <span class="step-number">03</span>
+        <h3>Publish</h3>
+        <p>Launch your portfolio instantly with a single click. Every update is published automatically, ensuring your latest work is always available online.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- <section id="testimonials">
+  <div class="wrap">
+    <p class="eyebrow">from the changelog</p>
+    <h2>What engineers say after publishing</h2>
+    <div class="testimonial-grid" style="margin-top: 32px;">
+      <div class="testimonial-card">
+        <p>I rebuilt my portfolio in an afternoon instead of the weekend I'd budgeted for it. The GitHub import alone saved most of the work.</p>
+        <div class="testimonial-meta"><span class="hl">@marco_dev</span> · backend engineer</div>
+      </div>
+      <div class="testimonial-card">
+        <p>Writing everything in markdown means I actually keep my portfolio updated — it's as easy as writing a README.</p>
+        <div class="testimonial-meta"><span class="hl">@priya.codes</span> · platform engineer</div>
+      </div>
+      <div class="testimonial-card">
+        <p>Custom domain setup took one DNS record and five minutes. It's been rock solid since.</p>
+        <div class="testimonial-meta"><span class="hl">@leo_builds</span> · frontend engineer</div>
+      </div>
+    </div>
+  </div>
+</section> -->
+
+<section id="testimonials">
+  <div class="wrap">
+
+      <p class="eyebrow">from the changelog</p>
+      <h2>What engineers say after publishing</h2>
+
+      <div class="swiper testimonialSwiper">
+
+          <div class="swiper-wrapper">
+
+              <div class="swiper-slide">
+                  <div class="testimonial-card">
+                      <p>
+                          I rebuilt my portfolio in an afternoon instead of the weekend I'd budgeted for it.
+                          The GitHub import alone saved most of the work.
+                      </p>
+
+                      <div class="testimonial-meta">
+                          <span class="hl">@marco_dev</span> · backend engineer
+                      </div>
+                  </div>
+              </div>
+
+              <div class="swiper-slide">
+                  <div class="testimonial-card">
+                      <p>
+                          Writing everything in markdown means I actually keep my portfolio updated —
+                          it's as easy as writing a README.
+                      </p>
+
+                      <div class="testimonial-meta">
+                          <span class="hl">@priya.codes</span> · platform engineer
+                      </div>
+                  </div>
+              </div>
+
+              <div class="swiper-slide">
+                  <div class="testimonial-card">
+                      <p>
+                          Custom domain setup took one DNS record and five minutes.
+                          It's been rock solid since.
+                      </p>
+
+                      <div class="testimonial-meta">
+                          <span class="hl">@leo_builds</span> · frontend engineer
+                      </div>
+                  </div>
+              </div>
+
+              <div class="swiper-slide">
+                <div class="testimonial-card">
+                    <p>
+                        Custom domain setup took one DNS record and five minutes.
+                        It's been rock solid since.
+                    </p>
+
+                    <div class="testimonial-meta">
+                        <span class="hl">@leo_builds</span> · frontend engineer
+                    </div>
+                </div>
+            </div>
+
+            <div class="swiper-slide">
+              <div class="testimonial-card">
+                  <p>
+                      Custom domain setup took one DNS record and five minutes.
+                      It's been rock solid since.
+                  </p>
+
+                  <div class="testimonial-meta">
+                      <span class="hl">@leo_builds</span> · frontend engineer
+                  </div>
+              </div>
+          </div>
+
+          </div>
+          <div style="margin-block-start: 50px;">
+          <div class="swiper-pagination"></div>
+          </div>
+      </div>
+    
+
+  </div>
+</section>
+
+
+
+<section class="cta-band">
+  <div class="wrap">
+    <h2>Your work deserves a better README.</h2>
+    <p>Free to start, no credit card required. Publish your first portfolio in the time it takes to review a pull request.</p>
+    <div class="hero-actions">
+      <a href="/signup/" class="btn btn-primary">Create your portfolio →</a>
+      <a href="/login/" class="btn">I already have an account</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <p>DevFolio — built for people who'd rather write code than CSS. © 2026.</p>
+</footer>
+
+<div class="status-bar">
+  <div class="status-left">
+    <span>⎇ main</span>
+    <span>UTF-8</span>
+    <span>● no errors</span>
+  </div>
+  <div class="status-right">
+    <span>Ln 1, Col 1</span>
+    <span data-clock>00:00 local</span>
+  </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<script>
+new Swiper(".testimonialSwiper", {
+
+    loop: true,
+
+    speed: 800,
+
+    spaceBetween: 24,
+
+    autoplay: {
+        delay: 3000,
+        disableOnInteraction: false,
+    },
+
+    pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+    },
+
+    breakpoints: {
+
+        0: {
+            slidesPerView: 1,
+        },
+
+        768: {
+            slidesPerView: 2,
+        },
+
+        1024: {
+            slidesPerView: 3,
+        },
+
+        1400: {
+            slidesPerView: 4,
+        }
+
+    }
+
+});
+</script>
+
+<script src="{% static 'landing_script.js' %}"></script>
+</body>
+</html>

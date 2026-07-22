@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Update Experience • DevFolio</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+
+    --bg:#0d1117;
+    --surface:#161b22;
+    --surface-light:#1f2630;
+
+    --border:#30363d;
+
+    --primary:#58a6ff;
+    --primary-dark:#1f6feb;
+
+    --text:#f0f6fc;
+    --text-light:#8b949e;
+
+    --radius:16px;
+
+    --transition:.3s ease;
+
+}
+
+body{
+
+    background:var(--bg);
+    color:var(--text);
+
+    font-family:Inter,sans-serif;
+
+}
+
+
+
+
+.messages-container{
+  position:fixed;
+  top:20px;
+  right:20px;
+  width:350px;
+  max-width:90%;
+  z-index:9999;
+}
+
+.alert{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px 18px;
+  margin-bottom:12px;
+  border-radius:8px;
+  color:#fff;
+  font-weight:500;
+  box-shadow:0 8px 20px rgba(0,0,0,.15);
+  animation:slideIn .3s ease;
+}
+
+.alert-success{
+  background:#16a34a;
+}
+
+.alert-error{
+  background:#dc2626;
+}
+
+.alert-warning{
+  background:#d97706;
+}
+
+.alert-info{
+  background:#2563eb;
+}
+
+.alert-close{
+  background:none;
+  border:none;
+  color:white;
+  font-size:22px;
+  cursor:pointer;
+  margin-left:15px;
+  line-height:1;
+}
+
+@keyframes slideIn{
+  from{
+      opacity:0;
+      transform:translateX(40px);
+  }
+  to{
+      opacity:1;
+      transform:translateX(0);
+  }
+}
+
+@media (max-width:768px){
+
+  .messages-container{
+      left:15px;
+      right:15px;
+      width:auto;
+      top:15px;
+  }
+
+}
+
+
+
+
+
+
+.container{
+
+    width:min(1100px,92%);
+    margin:auto;
+    padding:60px 0;
+
+}
+
+.eyebrow{
+
+    color:var(--primary);
+    font-size:.85rem;
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:.12rem;
+
+    margin-bottom:12px;
+
+}
+
+.page-title{
+
+    font-size:2.4rem;
+    font-weight:700;
+
+    margin-bottom:12px;
+
+}
+
+.page-description{
+
+    color:var(--text-light);
+
+    max-width:700px;
+
+    line-height:1.7;
+
+    margin-bottom:45px;
+
+}
+
+.panel{
+
+    background:var(--surface);
+
+    border:1px solid var(--border);
+
+    border-radius:18px;
+
+    padding:40px;
+
+}
+
+.panel-header{
+
+    margin-bottom:35px;
+
+}
+
+.panel-header h2{
+
+    font-size:1.5rem;
+
+    margin-bottom:10px;
+
+}
+
+.panel-header p{
+
+    color:var(--text-light);
+
+    line-height:1.6;
+
+}
+
+.form-row{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:22px;
+
+    margin-bottom:24px;
+
+}
+
+.form-group{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+.form-group label{
+
+    margin-bottom:10px;
+
+    font-weight:600;
+
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+
+    width:100%;
+
+    padding:14px 16px;
+
+    border-radius:12px;
+
+    border:1px solid var(--border);
+
+    background:var(--surface-light);
+
+    color:var(--text);
+
+    font-size:.95rem;
+
+    outline:none;
+
+    transition:var(--transition);
+
+}
+
+.form-group textarea{
+
+    resize:vertical;
+
+    min-height:120px;
+
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{
+
+    border-color:var(--primary);
+
+}
+
+.full-width{
+
+    grid-column:1/-1;
+
+}
+
+.form-note{
+
+    color:var(--text-light);
+
+    font-size:.85rem;
+
+    margin-top:8px;
+
+}
+
+.checkbox{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    margin-top:14px;
+
+}
+
+.checkbox input{
+
+    width:18px;
+    height:18px;
+
+}
+
+.date-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:22px;
+
+}
+
+.btn{
+
+    padding:14px 24px;
+
+    border:none;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    font-size:.95rem;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.btn-primary{
+
+    background:var(--primary);
+
+    color:white;
+
+}
+
+.btn-primary:hover{
+
+    background:var(--primary-dark);
+
+}
+
+.btn-secondary{
+
+    background:white;
+
+    color:#111;
+
+}
+
+.btn-secondary:hover{
+
+    transform:translateY(-2px);
+
+}
+
+@media(max-width:900px){
+
+.form-row,
+.date-grid{
+
+grid-template-columns:1fr;
+
+}
+
+.panel{
+
+padding:25px;
+
+}
+
+.page-title{
+
+font-size:2rem;
+
+}
+
+}
+
+@media(max-width:600px){
+
+.container{
+
+padding:35px 0;
+
+}
+
+.page-title{
+
+font-size:1.7rem;
+
+}
+
+.panel{
+
+padding:20px;
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<p class="eyebrow">
+Experience
+</p>
+
+<h1 class="page-title">
+Update Work Experience
+</h1>
+
+<p class="page-description">
+Show employers where you've worked, what you've built, and the impact you've made throughout your career.
+</p>
+
+<section class="panel">
+
+<div class="panel-header">
+
+<h2>
+Experience Details
+</h2>
+
+<p>
+Fill in the information below to add a new work experience to your public portfolio.
+</p>
+
+</div>
+
+{% if messages %}
+<div class="messages-container">
+    {% for message in messages %}
+        <div class="alert
+            {% if message.tags == 'success' %}alert-success{% endif %}
+            {% if message.tags == 'error' %}alert-error{% endif %}
+            {% if message.tags == 'warning' %}alert-warning{% endif %}
+            {% if message.tags == 'info' %}alert-info{% endif %}">
+            
+            <span>{{ message }}</span>
+
+            <button type="button" class="alert-close">&times;</button>
+        </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<form action="/update-experience/{{user_experience.id}}" method="POST">
+
+{% csrf_token %}
+
+<div class="form-row">
+
+<div class="form-group">
+
+<label>
+Company Name
+</label>
+
+<input
+type="text"
+name="company_name"
+placeholder="e.g. Microsoft"
+value="{{user_experience.company_name}}"
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>
+Job Title
+</label>
+
+<input
+type="text"
+name="job_title"
+placeholder="e.g. Senior Backend Engineer"
+value="{{user_experience.job_title}}"
+required>
+
+</div>
+
+</div>
+
+<div class="form-row">
+
+<div class="form-group">
+
+<label>
+Employment Type
+</label>
+
+<select name="employment_type">
+
+<option value="{{ user_experience.employment_type }}" selected>
+    {{ user_experience.employment_type }}
+</option>
+
+<option>
+Full-time
+</option>
+
+<option>
+Part-time
+</option>
+
+<option>
+Contract
+</option>
+
+<option>
+Internship
+</option>
+
+<option>
+Freelance
+</option>
+
+<option>
+Volunteer
+</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>
+Location
+</label>
+
+<input
+type="text"
+name="location"
+placeholder="Remote, Lagos, London..." value="{{user_experience.location}}">
+
+</div>
+
+</div>
+
+<div class="date-grid">
+
+<div class="form-group">
+
+<label>
+Start Date
+</label>
+
+<input
+type="date"
+name="start_date"
+required value="{{user_experience.start_time|date:'Y-m-d'}}">
+
+</div>
+
+<div class="form-group">
+
+<label>
+End Date
+</label>
+
+<input
+type="date"
+name="end_date"
+id="endDate" value="{{ user_experience.end_time|date:'Y-m-d' }}">
+
+
+
+</div>
+
+
+
+</div>
+<div class="checkbox">
+
+    <input
+    type="checkbox"
+    id="currentJob"
+    name="current_job" {% if user_experience.working_currently %}checked{% endif %}>
+    
+    <label for="currentJob">
+    I currently work here
+    </label>
+    
+    </div>
+<br>
+<div class="form-group full-width">
+
+    <label>
+    Short Description
+    </label>
+    
+    <textarea
+    name="short_description"
+    rows="4"
+    placeholder="Briefly describe your role and responsibilities.">{{user_experience.short_description}}</textarea>
+    
+    <p class="form-note">
+    This will appear below your job title on your portfolio.
+    </p>
+    
+    </div>
+    <br>
+    <div class="form-group full-width">
+    
+    <label>
+    Key Responsibilities & Achievements
+    </label>
+    
+    <textarea
+    name="achievements"
+    rows="8"
+    placeholder="• Led migration to a microservices architecture&#10;• Reduced API response time by 65%&#10;• Mentored five junior developers&#10;• Built CI/CD pipelines">{{user_experience.key_responsibilities}}</textarea>
+    
+    <p class="form-note">
+    Enter one achievement per line.
+    </p>
+    
+    </div>
+    <br>
+    <div class="form-group full-width">
+    
+    <label>
+    Technologies Used
+    </label>
+    
+    <input
+    type="text"
+    name="tech_stack"
+    placeholder="Python, Django, PostgreSQL, Docker, AWS" value="{{user_experience.tech_stack}}">
+    
+    <p class="form-note">
+    Separate technologies with commas.
+    </p>
+    
+    </div>
+    <br>
+    <div class="form-row">
+    
+    <div class="form-group">
+    
+    <label>
+    Company Website
+    </label>
+    
+    <input
+    type="url"
+    name="company_website"
+    placeholder="https://company.com" value="{{user_experience.company_website}}">
+    
+    </div>
+    
+    <div class="checkbox">
+
+        <input
+        type="checkbox"
+        id="currentJob"
+        name="" {% if user_experience.status == 'Draft' %}checked{% endif %}>
+        
+        <label for="currentJo">
+        Saved as Draft
+        </label>
+        
+        </div>
+    
+    </div>
+    
+    <div style="display:flex;justify-content:flex-end;gap:15px;margin-top:40px;flex-wrap:wrap;">
+    
+    <button
+    type="submit"
+    name="action"
+    value="draft"
+    class="btn btn-secondary">
+    
+    Save as Draft
+    
+    </button>
+    
+    <button
+    type="submit"
+    name="action"
+    value="published"
+    class="btn btn-primary">
+    
+    Publish Experience →
+    
+    </button>
+    
+    </div>
+    
+    </form>
+    
+    </section>
+    
+    </div>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+        
+            const alerts = document.querySelectorAll(".alert");
+        
+            alerts.forEach(alert => {
+        
+                const closeBtn = alert.querySelector(".alert-close");
+        
+                closeBtn.addEventListener("click", () => {
+                    alert.remove();
+                });
+        
+                setTimeout(() => {
+                    alert.style.transition = "opacity .4s ease";
+                    alert.style.opacity = "0";
+        
+                    setTimeout(() => {
+                        alert.remove();
+                    }, 400);
+        
+                }, 5000);
+        
+            });
+        
+        });
+        </script>
+    
+    <script>
+    
+    const currentJob = document.getElementById("currentJob");
+    const endDate = document.getElementById("endDate");
+    
+    currentJob.addEventListener("change",function(){
+    
+        if(this.checked){
+    
+            endDate.value = "";
+    
+            endDate.disabled = true;
+    
+        }else{
+    
+            endDate.disabled = false;
+    
+        }
+    
+    });
+    
+    </script>
+    
+    </body>
+    </html>

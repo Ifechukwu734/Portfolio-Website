@@ -1,0 +1,235 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Experience — DevFolio</title>
+<meta name="description" content="Upload and manage the projects on your portfolio.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'auth_style.css' %}">
+</head>
+<body>
+
+  <nav class="topnav">
+    <div class="wrap">
+      <a href="/" class="brand"><span class="bracket">&lt;</span>DevFolio<span class="bracket">/&gt;</span></a>
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">menu</button>
+      <ul class="nav-links">
+        <li><a href="/dashboard/">Dashboard {% if unread_contacts > 0 %} <span class="nav-badge">  {{unread_contacts}}  </span> {% endif %}</a></li>
+      <li><a href="/projects/">Projects</a></li>
+      <li><a href="/experiences/" aria-current="page">Experiences</a></li>
+      <li><a href="/profile/" >Profile</a></li>
+      <li><a href="/{{request.user.first_name}}{{request.user.last_name}}/{{request.user.user_id}}" target="_blank" rel="noopener">View live site ↗</a> </li>
+      </ul>
+    </div>
+  </nav>
+
+<div class="app-shell">
+  <aside class="sidebar">
+    <a href="/" class="brand"><span class="bracket">&lt;</span>DevFolio<span class="bracket">/&gt;</span></a>
+    <ul class="sidebar-nav">
+      <li><a href="/dashboard/">Dashboard {% if unread_contacts > 0 %} <span class="nav-badge">  {{unread_contacts}}  </span> {% endif %}</a></li>
+      <li><a href="/projects/" >Projects</a></li>
+      <li><a href="/experiences/" aria-current="page">Experiences</a></li>
+      <li><a href="/profile/">Profile</a></li>
+    </ul>
+    <div class="sidebar-footer">
+      <a href="/{{request.user.first_name}}{{request.user.last_name}}/{{request.user.user_id}}" target="_blank" rel="noopener">View live site ↗</a>
+    </div>
+  </aside>
+
+  {% if messages %}
+  <div class="messages-container">
+      {% for message in messages %}
+          <div class="alert
+              {% if message.tags == 'success' %}alert-success{% endif %}
+              {% if message.tags == 'error' %}alert-error{% endif %}
+              {% if message.tags == 'warning' %}alert-warning{% endif %}
+              {% if message.tags == 'info' %}alert-info{% endif %}">
+              
+              <span>{{ message }}</span>
+  
+              <button type="button" class="alert-close">&times;</button>
+          </div>
+      {% endfor %}
+  </div>
+  {% endif %}
+
+  <div class="app-main">
+    <header class="app-topbar">
+      <div>
+        <h1 class="page-title">Experiences</h1>
+        <p class="page-sub">Upload new experiences and manage what's published.</p>
+      </div>
+      <div class="topbar-user">
+        <span class="live-dot"></span> Your portfolio is live
+      </div>
+      <a href="/add-experience/" class="btn btn-primary">
+        + Add Experience
+    </a>
+  
+    </header>
+
+    <main class="app-content">
+
+    
+
+      <section class="panel">
+        <div class="panel-header">
+          <h2>Your Experiences</h2>
+          <span class="cell-faint">{{experiences.count}} total</span>
+        </div>
+
+        {% for items in experiences %}
+        <div class="project-row">
+
+          <div class="project-row-meta">
+            <span class="badge-pill draft"> {{items.employment_type}} </span>
+      
+          </div>
+        
+          <div class="project-row-main">
+            <h3> {{items.company_name}} </h3>
+            <p>{{ items.short_description|truncatechars:100 }}</p>
+          </div>
+          <div class="project-row-meta">
+            {% if items.status == 'Published' %}
+            <span class="badge-pill published">Published</span>
+            {% else %}
+            <span class="badge-pill draft">Draft</span>
+            {% endif %}
+            
+          </div>
+          <div class="row-actions">
+            <a href="/update-experience/{{items.id}}">Edit</a>
+            <a href="#" class="delete-project-btn danger-link" id="delete-btn" data-project-id="{{ items.id }}"> Delete </a>
+          </div>
+        </div>
+        {% endfor %}
+        
+
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<div class="status-bar">
+  <div class="status-left">
+    <span>⎇ main</span>
+    <span>UTF-8</span>
+    <span>● no errors</span>
+  </div>
+  <div class="status-right">
+    <span>Ln 9, Col 1</span>
+    <span data-clock>00:00 local</span>
+  </div>
+</div>
+
+
+<!-- Delete Modal -->
+<div class="modal-overlay" id="logoutModal">
+  <div class="logout-modal">
+
+      <div class="logout-icon">🗑️</div>
+
+      <h2>Delete Experience?</h2>
+
+      <p>
+          Are you sure you want to Delete this experience?
+      </p>
+
+      <div class="logout-actions">
+        
+          <button class="btn-cancel" id="closeLogout">
+              Cancel
+          </button>
+
+          <a href="#" id="confirmDeleteBtn" class="btn-logout">
+            Delete
+        </a>
+      
+      </div>
+
+  </div>
+</div>
+
+
+
+
+<script>
+const logoutModal = document.getElementById("logoutModal");
+const closeLogout = document.getElementById("closeLogout");
+const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
+
+// Every delete link
+document.querySelectorAll(".delete-project-btn").forEach(button => {
+
+    button.addEventListener("click", function(e){
+
+        e.preventDefault();
+
+        const projectId = this.dataset.projectId;
+
+        // Set the correct delete URL
+        confirmDeleteBtn.href = `/delete-experience/${projectId}`;
+
+        logoutModal.classList.add("show");
+
+    });
+
+});
+
+closeLogout.addEventListener("click", () => {
+
+    logoutModal.classList.remove("show");
+
+});
+
+logoutModal.addEventListener("click", (e) => {
+
+    if(e.target === logoutModal){
+
+        logoutModal.classList.remove("show");
+
+    }
+
+});
+  
+  </script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+  
+      const alerts = document.querySelectorAll(".alert");
+  
+      alerts.forEach(alert => {
+  
+          const closeBtn = alert.querySelector(".alert-close");
+  
+          closeBtn.addEventListener("click", () => {
+              alert.remove();
+          });
+  
+          setTimeout(() => {
+              alert.style.transition = "opacity .4s ease";
+              alert.style.opacity = "0";
+  
+              setTimeout(() => {
+                  alert.remove();
+              }, 400);
+  
+          }, 5000);
+  
+      });
+  
+  });
+  </script>
+
+
+<script src="{% static 'auth_script.js' %}"></script>
+</body>
+</html>

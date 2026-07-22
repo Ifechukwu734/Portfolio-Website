@@ -1,0 +1,98 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projects — {{user.first_name}} {{user.last_name}}</title>
+<meta name="description" content="Selected engineering projects by Jordan Ellis, full-stack engineer.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="wrap">
+    <a href="/{{user.first_name}}{{user.last_name}}/{{user.user_id}}" class="brand"><span class="bracket">&lt;</span>{{user.first_name}}.{{user.last_name}}<span class="bracket">/&gt;</span></a>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">menu</button>
+    <ul class="nav-links">
+      <li><a href="/{{user.first_name}}{{user.last_name}}/{{user.user_id}}">home</a></li>
+      <li><a href="/{{user.first_name}}{{user.last_name}}/{{user.user_id}}/projects/" aria-current="page">projects</a></li>
+      <li><a href="/{{user.first_name}}{{user.last_name}}/{{user.user_id}}/contact/" class="nav-cta">contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero" style="padding-bottom: 48px;">
+  <div class="wrap" style="display:block;">
+    <p class="eyebrow">projects</p>
+    <h1 class="hero-heading" style="font-size: clamp(2rem, 4vw, 2.8rem);">Things I've built</h1>
+    <p class="hero-sub">A mix of production infrastructure, internal tooling, and side projects. Each one taught me something I still use.</p>
+  </div>
+</header>
+
+<section id="all-projects">
+  <div class="wrap">
+    <div class="project-grid">
+
+      {% for items in projects %}
+      <div class="repo-card">
+        <div class="repo-tab">
+          {% if items.repository_url %}
+          <span> 
+            <a href="{{items.repository_url}}"> gitHub_repo_url </a> 
+          </span>
+          {% else %}
+          <span> 
+           gitHub_repo_url 
+          </span>
+          {% endif %}
+          {% if items.live_demo_url %}
+          <span> <a href="{{items.live_demo_url}}"> public </a>
+           </span>
+           {% else %}
+           <span> public
+           </span>
+           {% endif %}
+          </div>
+        <div class="repo-body">
+          <h3> {{items.project_title}} </h3>
+          <p> {{items.project_description}} </p>
+          <div class="repo-tags">
+            {% for tech in items.project_tech_stack %}
+            <span class="repo-tag">{{ tech }}</span>
+        {% endfor %}
+            <!-- <span class="repo-tag">go</span>
+            <span class="repo-tag">performance</span> -->
+          </div>
+          <div class="repo-metric">Impact: {{items.impact_metrics}} </div>
+        </div>
+      </div>
+      {% endfor %}
+     
+
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <p>Built with plain HTML, CSS, and JS.</p>
+</footer>
+
+<div class="status-bar">
+  <div class="status-left">
+    <span>⎇ main</span>
+    <span>UTF-8</span>
+    <span>● no errors</span>
+  </div>
+  <div class="status-right">
+    <span>Ln 8, Col 1</span>
+    <span data-clock>00:00 local</span>
+  </div>
+</div>
+
+<script src="{% static 'script.js' %}"></script>
+</body>
+</html>

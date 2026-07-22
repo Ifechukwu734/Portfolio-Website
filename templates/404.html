@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 — Page Not Found</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root{
+    --bg:#0b1120;
+    --panel:#111827;
+    --panel-light:#1f2937;
+    --border:#2d3748;
+    --text:#f8fafc;
+    --text-soft:#94a3b8;
+    --accent:#4f8cff;
+    --accent-hover:#6aa1ff;
+    --green:#22c55e;
+    --red:#ef4444;
+
+    --radius:18px;
+
+    --font-heading:"Space Grotesk",sans-serif;
+    --font-body:"Inter",sans-serif;
+    --font-mono:"JetBrains Mono",monospace;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--font-body);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:30px;
+}
+
+.container{
+    width:100%;
+    max-width:700px;
+}
+
+.terminal{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 25px 60px rgba(0,0,0,.4);
+}
+
+.terminal-bar{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:16px 22px;
+    border-bottom:1px solid var(--border);
+    background:var(--panel-light);
+}
+
+.dot{
+    width:12px;
+    height:12px;
+    border-radius:50%;
+}
+
+.red{background:#ef4444;}
+.yellow{background:#f59e0b;}
+.green{background:#22c55e;}
+
+.title{
+    margin-left:15px;
+    font-family:var(--font-mono);
+    color:var(--text-soft);
+    font-size:.9rem;
+}
+
+.content{
+    padding:60px 45px;
+    text-align:center;
+}
+
+.error{
+    font-size:6rem;
+    font-family:var(--font-heading);
+    color:var(--accent);
+    line-height:1;
+}
+
+.command{
+    margin:30px auto;
+    max-width:500px;
+    text-align:left;
+    background:#0f172a;
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:18px;
+    font-family:var(--font-mono);
+}
+
+.prompt{
+    color:var(--green);
+}
+
+.output{
+    color:#f87171;
+    margin-top:10px;
+    display:block;
+}
+
+h1{
+    font-family:var(--font-heading);
+    margin-top:20px;
+    font-size:2rem;
+}
+
+p{
+    margin-top:15px;
+    color:var(--text-soft);
+    line-height:1.7;
+}
+
+.actions{
+    margin-top:40px;
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    padding:14px 28px;
+    border-radius:12px;
+    text-decoration:none;
+    transition:.3s;
+    font-weight:600;
+}
+
+.primary{
+    background:var(--accent);
+    color:white;
+}
+
+.primary:hover{
+    background:var(--accent-hover);
+}
+
+.secondary{
+    border:1px solid var(--border);
+    color:var(--text);
+}
+
+.secondary:hover{
+    background:var(--panel-light);
+}
+
+.footer{
+    margin-top:35px;
+    color:#64748b;
+    font-family:var(--font-mono);
+    font-size:.85rem;
+}
+
+@media(max-width:600px){
+
+.error{
+    font-size:4rem;
+}
+
+.content{
+    padding:45px 25px;
+}
+
+h1{
+    font-size:1.6rem;
+}
+
+.actions{
+    flex-direction:column;
+}
+
+.btn{
+    width:100%;
+}
+
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="terminal">
+
+<div class="terminal-bar">
+<div class="dot red"></div>
+<div class="dot yellow"></div>
+<div class="dot green"></div>
+<div class="title">~/devfolio</div>
+</div>
+
+<div class="content">
+
+<div class="error">404</div>
+
+<div class="command">
+<span class="prompt">$</span> open requested-page<br>
+<span class="output">
+Error: The page you're looking for doesn't exist.
+</span>
+</div>
+
+<h1>Looks like this route hasn't been committed yet.</h1>
+
+<p>
+The page may have been moved, deleted, or the URL may be incorrect.
+Try returning back to the homepage.
+</p>
+
+<div class="actions">
+<a href="/" class="btn primary">← Go Home</a>
+
+</div>
+
+<div class="footer">
+git status → nothing to see here
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>

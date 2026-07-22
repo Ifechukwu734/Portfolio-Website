@@ -1,0 +1,302 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projects — DevFolio</title>
+<meta name="description" content="Upload and manage the projects on your portfolio.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'auth_style.css' %}">
+</head>
+<body>
+
+  <nav class="topnav">
+    <div class="wrap">
+      <a href="/" class="brand"><span class="bracket">&lt;</span>DevFolio<span class="bracket">/&gt;</span></a>
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">menu</button>
+      <ul class="nav-links">
+        <li><a href="/dashboard/">Dashboard {% if unread_contacts > 0 %} <span class="nav-badge">  {{unread_contacts}}  </span> {% endif %}</a></li>
+      <li><a href="/projects/" aria-current="page">Projects</a></li>
+      <li><a href="/experiences/" >Experiences</a></li>
+      <li><a href="/profile/" >Profile</a></li>
+      <li><a href="/{{request.user.first_name}}{{request.user.last_name}}/{{request.user.user_id}}" target="_blank" rel="noopener">View live site ↗</a> </li>
+      </ul>
+    </div>
+  </nav>
+
+<div class="app-shell">
+  <aside class="sidebar">
+    <a href="/" class="brand"><span class="bracket">&lt;</span>DevFolio<span class="bracket">/&gt;</span></a>
+    <ul class="sidebar-nav">
+      <li><a href="/dashboard/">Dashboard {% if unread_contacts > 0 %} <span class="nav-badge">  {{unread_contacts}}  </span> {% endif %}</a></li>
+      <li><a href="/projects/" aria-current="page">Projects</a></li>
+      <li><a href="/experiences/" >Experiences</a></li>
+      <li><a href="/profile/">Profile</a></li>
+    </ul>
+    <div class="sidebar-footer">
+      <a href="/{{request.user.first_name}}{{request.user.last_name}}/{{request.user.user_id}}" target="_blank" rel="noopener">View live site ↗</a>
+    </div>
+  </aside>
+
+  {% if messages %}
+  <div class="messages-container">
+      {% for message in messages %}
+          <div class="alert
+              {% if message.tags == 'success' %}alert-success{% endif %}
+              {% if message.tags == 'error' %}alert-error{% endif %}
+              {% if message.tags == 'warning' %}alert-warning{% endif %}
+              {% if message.tags == 'info' %}alert-info{% endif %}">
+              
+              <span>{{ message }}</span>
+  
+              <button type="button" class="alert-close">&times;</button>
+          </div>
+      {% endfor %}
+  </div>
+  {% endif %}
+
+  <div class="app-main">
+    <header class="app-topbar">
+      <div>
+        <h1 class="page-title">Projects</h1>
+        <p class="page-sub">Upload new work and manage what's published.</p>
+      </div>
+      <div class="topbar-user">
+        <span class="live-dot"></span> Your portfolio is live
+      </div>
+    </header>
+
+    <main class="app-content">
+
+      <section class="panel">
+        <div class="panel-header">
+          <h2>Upload a project</h2>
+        </div>
+
+        <form action="/projects/" method="post" id="projectForm" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="form-row">
+            <div class="form-group">
+              <label for="proj-title">Project title</label>
+              <input type="text" id="proj-title" name="title" placeholder="e.g. Routewise" required>
+            </div>
+            <div class="form-group">
+              <label for="proj-metric">Impact metric</label>
+              <input type="text" id="proj-metric" name="metric" placeholder="e.g. Adopted by 30+ services">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="proj-description">Short description</label>
+            <textarea id="proj-description" name="description" rows="3" placeholder="What does it do, and what problem does it solve?" required></textarea>
+          </div>
+
+          <div class="form-group" data-tag-editor>
+            <label for="proj-tags">Tech tags</label>
+            <div class="tag-editor">
+              <span class="tag-pill">Go <button type="button" class="tag-remove" aria-label="Remove go">×</button></span>
+              <span class="tag-pill">Python <button type="button" class="tag-remove" aria-label="Remove performance">×</button></span>
+            </div>
+            <input type="text" id="proj-tags" data-tag-input placeholder="Type a tag and press Enter">
+            <input type="hidden" name="tags" id="tags-hidden">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="proj-repo">Repository URL</label>
+              <input type="url" id="proj-repo" name="repo" placeholder="https://github.com/you/project">
+            </div>
+            <div class="form-group">
+              <label for="proj-demo">Live demo URL</label>
+              <input type="url" id="proj-demo" name="demo" placeholder="https://project.yoursite.dev">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Cover image</label>
+            <div class="dropzone" data-dropzone tabindex="0">
+              <span class="dropzone-icon">⇧</span>
+              <p class="dropzone-text">Drop an image here, or click to browse</p>
+              <p class="dropzone-hint">PNG or JPG, up to 5MB</p>
+              <input type="file" name="project-image" accept="image/png, image/jpeg" style="display:none;">
+              <p class="dropzone-filename"></p>
+            </div>
+          </div>
+
+          <!-- <div class="form-group">
+            <label>Status</label>
+            <div class="segmented">
+              <input type="radio" name="status" id="status-draft" checked>
+              <label for="status-draft">Draft</label>
+              <input type="radio" name="status" id="status-published">
+              <label for="status-published">Published</label>
+            </div>
+          </div> -->
+
+          <div class="save-row">
+            <button type="submit" name="action" value="draft" class="btn " style="color: black;">Save as draft</button>
+            <button type="submit" name="action" value="published" class="btn btn-primary">Publish project →</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <h2>Your projects</h2>
+          <span class="cell-faint">{{project_count}} total</span>
+        </div>
+
+        {% for items in projects %}
+        <div class="project-row">
+          <div class="project-thumb">
+            {% if items.cover_image %}
+            <img src="{{items.cover_image.url}}" alt="cover-image"/>
+            {% else %}
+            <img src="{% static 'project_default.jpg' %}" alt="cover-image"/>
+            {% endif %}
+          </div>
+          <div class="project-row-main">
+            <h3> {{items.project_title}} </h3>
+            <p>{{ items.project_description|truncatechars:100 }}</p>
+          </div>
+          <div class="project-row-meta">
+            {% if items.status == 'Published' %}
+            <span class="badge-pill published">Published</span>
+            {% else %}
+            <span class="badge-pill draft">Draft</span>
+            {% endif %}
+            <span>{{items.project_views}} views</span>
+          </div>
+          <div class="row-actions">
+            <a href="/update-project/{{items.id}}">Edit</a>
+            <a href="#" class="delete-project-btn danger-link" id="delete-btn" data-project-id="{{ items.id }}"> Delete </a>
+          </div>
+        </div>
+        {% endfor %}
+        
+
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<div class="status-bar">
+  <div class="status-left">
+    <span>⎇ main</span>
+    <span>UTF-8</span>
+    <span>● no errors</span>
+  </div>
+  <div class="status-right">
+    <span>Ln 9, Col 1</span>
+    <span data-clock>00:00 local</span>
+  </div>
+</div>
+
+
+<!-- Delete Modal -->
+<div class="modal-overlay" id="logoutModal">
+  <div class="logout-modal">
+
+      <div class="logout-icon">🗑️</div>
+
+      <h2>Delete Project?</h2>
+
+      <p>
+          Are you sure you want to Delete this project?
+      </p>
+
+      <div class="logout-actions">
+        
+          <button class="btn-cancel" id="closeLogout">
+              Cancel
+          </button>
+
+          <a href="#" id="confirmDeleteBtn" class="btn-logout">
+            Delete
+        </a>
+      
+      </div>
+
+  </div>
+</div>
+
+
+
+
+<script>
+const logoutModal = document.getElementById("logoutModal");
+const closeLogout = document.getElementById("closeLogout");
+const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
+
+// Every delete link
+document.querySelectorAll(".delete-project-btn").forEach(button => {
+
+    button.addEventListener("click", function(e){
+
+        e.preventDefault();
+
+        const projectId = this.dataset.projectId;
+
+        // Set the correct delete URL
+        confirmDeleteBtn.href = `/delete-project/${projectId}`;
+
+        logoutModal.classList.add("show");
+
+    });
+
+});
+
+closeLogout.addEventListener("click", () => {
+
+    logoutModal.classList.remove("show");
+
+});
+
+logoutModal.addEventListener("click", (e) => {
+
+    if(e.target === logoutModal){
+
+        logoutModal.classList.remove("show");
+
+    }
+
+});
+  
+  </script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+  
+      const alerts = document.querySelectorAll(".alert");
+  
+      alerts.forEach(alert => {
+  
+          const closeBtn = alert.querySelector(".alert-close");
+  
+          closeBtn.addEventListener("click", () => {
+              alert.remove();
+          });
+  
+          setTimeout(() => {
+              alert.style.transition = "opacity .4s ease";
+              alert.style.opacity = "0";
+  
+              setTimeout(() => {
+                  alert.remove();
+              }, 400);
+  
+          }, 5000);
+  
+      });
+  
+  });
+  </script>
+
+
+<script src="{% static 'auth_script.js' %}"></script>
+</body>
+</html>

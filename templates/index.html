@@ -1,0 +1,221 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{user.first_name}} {{user.last_name}} — {{user.tech_field}} </title>
+<meta name="description" content="Portfolio of Jordan Ellis, full-stack engineer specializing in distributed systems and developer tooling.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="wrap">
+    <a href="#" class="brand"><span class="bracket">&lt;</span>{{user.first_name}}.{{user.last_name}}<span class="bracket">/&gt;</span></a>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">menu</button>
+    <ul class="nav-links">
+      <li><a href="/{{user.first_name}}{{user.last_name}}/{{user.user_id}}" aria-current="page">home</a></li>
+      <li><a href="/{{user.first_name}}{{user.last_name}}/{{user.user_id}}/projects/">projects</a></li>
+      <li><a href="/{{user.first_name}}{{user.last_name}}/{{user.user_id}}/contact/" class="nav-cta">contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-copy">
+      <p class="eyebrow">available for staff / lead roles</p>
+      <h1 class="hero-heading">{{user.first_name}} {{user.last_name}}<br><span class="role">{{user.tech_field}}</span></h1>
+      <p class="hero-sub"> {{user.professional_summary|linebreaks}} </p>
+      <div class="hero-actions">
+        <a href="projects.html" class="btn btn-primary">View projects →</a>
+        <a href="contact.html" class="btn">Get in touch</a>
+      </div>
+    </div>
+
+    <div class="terminal" aria-label="Terminal introduction">
+      <div class="terminal-bar">
+        <span class="terminal-dot red"></span>
+        <span class="terminal-dot yellow"></span>
+        <span class="terminal-dot green"></span>
+        <span class="terminal-title">{{user.first_name}}@portfolio — zsh</span>
+      </div>
+      <div class="terminal-body">
+        <div class="terminal-line">
+          <span class="terminal-prompt">$</span> whoami
+          <span class="terminal-output"><span class="hl">{{user.first_name}} {{user.last_name}}</span> — {{user.tech_field}}</span>
+        </div>
+        <div class="terminal-line">
+          <span class="terminal-prompt">$</span> location
+          <span class="terminal-output"><span class="hl"> {{user.location}}</span></span>
+        </div>
+        <div class="terminal-line">
+          <span class="terminal-prompt">$</span> cat focus.txt
+          <span class="terminal-output" data-type="{{user.bio}}"></span>
+        </div>
+        <div class="terminal-line">
+          <span class="terminal-prompt">$</span> ./status.sh
+          <span class="terminal-output"><span class="hl">●</span> open to new opportunities<span class="cursor"></span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="about">
+  <div class="wrap about-grid">
+    <div>
+      <div class="photo-frame">
+        <div class="photo-frame-bar">
+          <span class="terminal-dot red"></span>
+          <span class="terminal-dot yellow"></span>
+          <span class="terminal-dot green"></span>
+          <span class="terminal-title">workspace.jpg</span>
+        </div>
+        <img src="{{user.profile_image.url}}" style="border-radius: 15px;" alt="Jordan's dual-monitor development setup, mid-session">
+      </div>
+      <p class="eyebrow">about</p>
+      <h2> {{user.professional_headlines}} </h2>
+    </div>
+    <div>
+      <p class=""> {{user.about_me|linebreaksbr}} </p>
+    
+    </div>
+  </div>
+</section>
+
+<section id="stack">
+  <div class="wrap">
+    <p class="eyebrow">Tech Stack</p>
+    <h2>Technologies I work with</h2>
+
+    <div class="stack-card">
+      <div class="stack-tags">
+        {% if tech_stack != '' %}
+        {% for tech in tech_stack %}
+            <span class="stack-tag">{{ tech }}</span>
+        {% endfor %}
+
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <p class="eyebrow">experience</p>
+    <h2>Changelog</h2>
+    <div class="changelog">
+
+      {% for items in experiences %}
+      <div class="changelog-entry">
+        <div class="changelog-version">
+          {% if items.end_time %}
+          {{items.start_time}} – {{items.end_time}}
+          {% else %}
+          {{items.start_time}} – now
+          {% endif %}
+          
+          <span> {{items.employment_type}} </span>
+          {% if items.working_currently %}
+          <span>current</span>
+          {% endif %}
+        </div>
+        <div class="changelog-content">
+          {% if items.company_website %}
+          <a href="{{items.company_website}}"> <h3> {{items.company_name}} </h3> </a>
+          {% else %}
+          <h3> {{items.company_name}} </h3>
+          {% endif %}
+          <span class="changelog-role"> {{items.job_title}} </span>
+          <span class="changelog-role"> {{items.location}} </span>
+          <br>
+          <p>{{items.short_description}}</p>
+          <ul>
+            {% for achievement in items.key_responsibilities %}
+                <li>{{ achievement }}</li>
+            {% endfor %}
+        </ul>
+          <!-- <ul>
+            <li>Migrated billing monolith to an event-driven architecture, cutting P99 latency by 63%.</li>
+            <li>Designed the internal service template used to spin up every new microservice.</li>
+            <li>Introduced contract testing between services, reducing cross-team incidents by half.</li>
+          </ul> -->
+          <p>Tech stacks: {{items.tech_stack}}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section id="featured-projects">
+  <div class="wrap">
+    <p class="eyebrow">selected work</p>
+    <h2>Featured projects</h2>
+    <div class="project-grid">
+
+      {% for items in projects %}
+      <div class="repo-card">
+        <div class="repo-tab">
+          {% if items.repository_url %}
+          <span> 
+            <a href="{{items.repository_url}}"> gitHub_repo_url </a> 
+          </span>
+          {% else %}
+          <span> 
+           gitHub_repo_url 
+          </span>
+          {% endif %}
+          {% if items.live_demo_url %}
+          <span> <a href="{{items.live_demo_url}}"> public </a>
+           </span>
+           {% else %}
+           <span> public
+           </span>
+           {% endif %}
+          </div>
+        <div class="repo-body">
+          <h3> {{items.project_title}} </h3>
+          <p> {{items.project_description}} </p>
+          <div class="repo-tags">
+            {% for tech in items.project_tech_stack %}
+            <span class="repo-tag">{{ tech }}</span>
+        {% endfor %}
+            <!-- <span class="repo-tag">go</span>
+            <span class="repo-tag">performance</span> -->
+          </div>
+          <div class="repo-metric">Impact: {{items.impact_metrics}} </div>
+        </div>
+      </div>
+      {% endfor %}
+     
+    </div>
+    <p style="margin-top: 32px;"><a href="/{{user.first_name}}{{user.last_name}}/{{user.user_id}}/projects/">See all projects →</a></p>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <p>Built with plain HTML, CSS, and JS.</p>
+</footer>
+
+<div class="status-bar">
+  <div class="status-left">
+    <span>⎇ main</span>
+    <span>UTF-8</span>
+    <span>● no errors</span>
+  </div>
+  <div class="status-right">
+    <span>Ln 12, Col 4</span>
+    <span data-clock>00:00 local</span>
+  </div>
+</div>
+
+<script src="{% static 'script.js' %}"></script>
+</body>
+</html>

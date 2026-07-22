@@ -1,0 +1,160 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — {{user.first_name}} {{user.last_name}} </title>
+<meta name="description" content="Get in touch with Jordan Ellis, full-stack engineer.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="wrap">
+    <a href="index.html" class="brand"><span class="bracket">&lt;</span> {{user.first_name}}.{{user.last_name}} <span class="bracket">/&gt;</span></a>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">menu</button>
+    <ul class="nav-links">
+      <li><a href="/{{user.first_name}}{{user.last_name}}/{{user.user_id}}" aria-current="page">home</a></li>
+      <li><a href="/{{user.first_name}}{{user.last_name}}/{{user.user_id}}/projects/">projects</a></li>
+      <li><a href="/{{user.first_name}}{{user.last_name}}/{{user.user_id}}/contact/" class="nav-cta" aria-current="page">contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+{% if messages %}
+<div class="messages-container">
+    {% for message in messages %}
+        <div class="alert
+            {% if message.tags == 'success' %}alert-success{% endif %}
+            {% if message.tags == 'error' %}alert-error{% endif %}
+            {% if message.tags == 'warning' %}alert-warning{% endif %}
+            {% if message.tags == 'info' %}alert-info{% endif %}">
+            
+            <span>{{ message }}</span>
+
+            <button type="button" class="alert-close">&times;</button>
+        </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<header class="hero" style="padding-bottom: 48px;">
+  <div class="wrap" style="display:block;">
+    <p class="eyebrow">contact</p>
+    <h1 class="hero-heading" style="font-size: clamp(2rem, 4vw, 2.8rem);">Let's talk</h1>
+    <p class="hero-sub">Open to staff and lead engineering roles, consulting, and interesting problems in general. Usually replies within a day or two.</p>
+  </div>
+</header>
+
+<section id="contact-main">
+  <div class="wrap contact-grid">
+    <div>
+      <div class="terminal" aria-label="Contact command reference">
+        <div class="terminal-bar">
+          <span class="terminal-dot red"></span>
+          <span class="terminal-dot yellow"></span>
+          <span class="terminal-dot green"></span>
+          <span class="terminal-title">{{user.first_name}}@portfolio — contact.sh</span>
+        </div>
+        <div class="terminal-body">
+          <div class="terminal-line">
+            <span class="terminal-prompt">$</span> contact --method email
+            <span class="terminal-output"><span class="hl">{{user.email}}</span></span>
+          </div>
+          <div class="terminal-line">
+            <span class="terminal-prompt">$</span> contact --method call
+            <span class="terminal-output">available by request, mention timezone</span>
+          </div>
+          <div class="terminal-line">
+            <span class="terminal-prompt">$</span> ./response_time.sh
+            <span class="terminal-output"><span class="hl">~1–2 business days</span><span class="cursor"></span></span>
+          </div>
+        </div>
+      </div>
+
+      <ul class="contact-list">
+        <li><span>Email</span><span><a href="{{user.email}}">{{user.email}}</a></span></li>
+        <li><span>GitHub</span><span><a href="{{user.github_repo_url}}">{{user.gitHub_repo_url}}</a></span></li>
+        <li><span>LinkedIn</span><span><a href="{{user.linkedin_url}}"> {{user.linkedin_url}} </a></span></li>
+        <li><span>Location</span><span> {{user.location}} </span></li>
+      </ul>
+    </div>
+
+    <div>
+      <p class="eyebrow">send a message</p>
+      <form action="/{{user.first_name}}{{user.last_name}}/{{user.user_id}}/contact/" method="post" >
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" placeholder="Your name" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="you@example.com" required>
+        </div>
+        <div class="form-group">
+          <label for="subject">Subject</label>
+          <input type="text" id="subject" name="subject" placeholder="What's this about?" required >
+        </div>
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="6" placeholder="Tell me a bit about the role or project." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Send message →</button>
+        
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <p>Built with plain HTML, CSS, and JS. Last updated 2026.</p>
+</footer>
+
+<div class="status-bar">
+  <div class="status-left">
+    <span>⎇ main</span>
+    <span>UTF-8</span>
+    <span>● no errors</span>
+  </div>
+  <div class="status-right">
+    <span>Ln 3, Col 9</span>
+    <span data-clock>00:00 local</span>
+  </div>
+</div>
+
+<script src="{% static 'script.js' %}"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+  
+      const alerts = document.querySelectorAll(".alert");
+  
+      alerts.forEach(alert => {
+  
+          const closeBtn = alert.querySelector(".alert-close");
+  
+          closeBtn.addEventListener("click", () => {
+              alert.remove();
+          });
+  
+          setTimeout(() => {
+              alert.style.transition = "opacity .4s ease";
+              alert.style.opacity = "0";
+  
+              setTimeout(() => {
+                  alert.remove();
+              }, 400);
+  
+          }, 5000);
+  
+      });
+  
+  });
+  </script>
+</body>
+</html>

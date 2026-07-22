@@ -1,0 +1,144 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign up — DevFolio</title>
+<meta name="description" content="Create a free DevFolio account and publish your portfolio.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'landing_style.css' %}">
+
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="wrap">
+    <a href="/" class="brand"><span class="bracket">&lt;</span>DevFolio<span class="bracket">/&gt;</span></a>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">menu</button>
+    <ul class="nav-links">
+      <li><a href="/#features">features</a></li>
+      <li><a href="/#how-it-works">how it works</a></li>
+      <li><a href="/login/" class="nav-signup">log in</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="auth-shell">
+  <div class="auth-card">
+    <div class="terminal-bar">
+      <span class="terminal-dot red"></span>
+      <span class="terminal-dot yellow"></span>
+      <span class="terminal-dot green"></span>
+      <span class="terminal-title">devfolio signup</span>
+    </div>
+    <div class="auth-body">
+      <h1>Create your account</h1>
+      <p class="auth-sub">Free to start — publish your first portfolio in minutes.</p>
+
+      <form action="/signup/" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+
+          <div class="form-group">
+            <label for="signup-email">Email</label>
+            <input type="email" id="signup-email" name="email" placeholder="you@example.com" required>
+          </div>
+
+
+          <label for="signup-name">First Name</label>
+          <input type="text" id="signup-name" name="first_name" placeholder="Jordan" required>
+        </div>
+
+        <div class="form-group">
+          <label for="signup-name">Last Name</label>
+          <input type="text" id="signup-name" name="last_name" placeholder="Ellis" required>
+        </div>
+
+        <div class="form-group">
+          <label for="signup-name">Location</label>
+          <input type="text" id="signup-name" name="location" placeholder="Town, State, Country" required>
+        </div>
+
+
+        <div class="form-group password-field">
+          <label for="signup-password">Password</label>
+          <input type="password" id="signup-password" name="password" placeholder="••••••••" required minlength="8">
+          <button type="button" class="password-toggle" data-target="signup-password">show</button>
+        </div>
+        <p class="password-hint">At least 8 characters.</p>
+
+
+        <div class="field-row" style="justify-content: flex-start;">
+          <label><input type="checkbox" name="terms" required> I agree to the <a href="#">Terms</a> and <a href="#">Privacy Policy</a></label>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">Create account →</button>
+      </form>
+      {% if messages %}
+<div class="messages-container">
+    {% for message in messages %}
+        <div class="alert
+            {% if message.tags == 'success' %}alert-success{% endif %}
+            {% if message.tags == 'error' %}alert-error{% endif %}
+            {% if message.tags == 'warning' %}alert-warning{% endif %}
+            {% if message.tags == 'info' %}alert-info{% endif %}">
+            
+            <span>{{ message }}</span>
+
+            <button type="button" class="alert-close">&times;</button>
+        </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+      <p class="auth-switch">Already have an account? <a href="/login/">Log in</a></p>
+    </div>
+  </div>
+</div>
+
+<div class="status-bar">
+  <div class="status-left">
+    <span>⎇ main</span>
+    <span>UTF-8</span>
+    <span>● no errors</span>
+  </div>
+  <div class="status-right">
+    <span>Ln 3, Col 4</span>
+    <span data-clock>00:00 local</span>
+  </div>
+</div>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+  
+      const alerts = document.querySelectorAll(".alert");
+  
+      alerts.forEach(alert => {
+  
+          const closeBtn = alert.querySelector(".alert-close");
+  
+          closeBtn.addEventListener("click", () => {
+              alert.remove();
+          });
+  
+          setTimeout(() => {
+              alert.style.transition = "opacity .4s ease";
+              alert.style.opacity = "0";
+  
+              setTimeout(() => {
+                  alert.remove();
+              }, 400);
+  
+          }, 5000);
+  
+      });
+  
+  });
+  </script>
+<script src="{% static 'landing_script.js' %}"></script>
+</body>
+</html>

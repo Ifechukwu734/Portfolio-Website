@@ -1,0 +1,536 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profile — DevFolio</title>
+<meta name="description" content="View and edit your DevFolio profile details.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'auth_style.css' %}">
+</head>
+<body>
+
+  <nav class="topnav">
+    <div class="wrap">
+      <a href="/" class="brand"><span class="bracket">&lt;</span>DevFolio<span class="bracket">/&gt;</span></a>
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">menu</button>
+      <ul class="nav-links">
+        <li><a href="/dashboard/">Dashboard {% if unread_contacts > 0 %} <span class="nav-badge">  {{unread_contacts}}  </span> {% endif %}</a></li>
+      <li><a href="/projects/">Projects</a></li>
+      <li><a href="/experiences/" >Experiences</a></li>
+      <li><a href="/profile/" aria-current="page">Profile</a></li>
+      <li><a href="/{{request.user.first_name}}{{request.user.last_name}}/{{request.user.user_id}}" target="_blank" rel="noopener">View live site ↗</a> </li>
+      <li><a href="#" id="logoutBtn">Log out</a> </li>
+      </ul>
+    </div>
+  </nav>
+
+<div class="app-shell">
+  <aside class="sidebar">
+    <a href="/" class="brand"><span class="bracket">&lt;</span>DevFolio<span class="bracket">/&gt;</span></a>
+    <ul class="sidebar-nav">
+      <li><a href="/dashboard/">Dashboard {% if unread_contacts > 0 %} <span class="nav-badge">  {{unread_contacts}}  </span> {% endif %}</a></li>
+      <li><a href="/projects/">Projects</a></li>
+      <li><a href="/experiences/" >Experiences</a></li>
+      <li><a href="/profile/" aria-current="page">Profile</a></li>
+    </ul>
+    <div class="sidebar-footer">
+      <a href="/{{request.user.first_name}}{{request.user.last_name}}/{{request.user.user_id}}" target="_blank" rel="noopener">View live site ↗</a>
+      
+    </div>
+  </aside>
+
+
+  {% if messages %}
+  <div class="messages-container">
+      {% for message in messages %}
+          <div class="alert
+              {% if message.tags == 'success' %}alert-success{% endif %}
+              {% if message.tags == 'error' %}alert-error{% endif %}
+              {% if message.tags == 'warning' %}alert-warning{% endif %}
+              {% if message.tags == 'info' %}alert-info{% endif %}">
+              
+              <span>{{ message }}</span>
+  
+              <button type="button" class="alert-close">&times;</button>
+          </div>
+      {% endfor %}
+  </div>
+  {% endif %}
+
+
+  <div class="app-main">
+    <header class="app-topbar">
+      <div>
+        <h1 class="page-title">Profile</h1>
+        <p class="page-sub">This is what visitors see on your portfolio.</p>
+      </div>
+      <div class="topbar-user">
+        <span class="live-dot"></span> Your portfolio is live
+      </div>
+    </header>
+
+    <main class="app-content">
+
+      <section class="panel">
+        <div class="panel-header">
+          <h2>Public profile</h2>
+        </div>
+
+        <form action="/profile/" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="avatar-row">
+
+            <div class="avatar-circle" id="avatarPreview">
+        
+                {% if request.user.profile_image %}
+                    <img src="{{ request.user.profile_image.url }}" alt="Profile Photo">
+                {% else %}
+                    {{initials}}
+                {% endif %}
+        
+            </div>
+        
+            <div>
+        
+                <button
+                    type="button"
+                    class="btn"
+                    id="changePhotoBtn"
+                    style="color: black;">
+                    Change Photo
+                </button>
+        
+                <input
+                    type="file"
+                    id="profilePhotoInput"
+                    name="profile_image"
+                    accept="image/png,image/jpeg"
+                    hidden>
+        
+                <p class="form-note" style="margin-top:8px;">
+                    PNG or JPG, at least 200×200px.
+                </p>
+        
+            </div>
+        
+        </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="full-name">First name</label>
+              <input type="text" id="full-name" name="first_name" value="{{request.user.first_name}}">
+            </div>
+            <div class="form-group">
+              <label for="headline">Last Name</label>
+              <input type="text" id="headline" name="last_name" value="{{request.user.last_name}}">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="location">Location</label>
+              <input type="text" id="location" name="location" value="{{request.user.location}}">
+            </div>
+            <div class="form-group">
+              <label for="domain">Tech Field</label>
+              <input type="text" id="domain" name="tech_field" value="{{request.user.tech_field}}" placeholder="Full-Stack Engineer">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="bio">Focus</label>
+            <textarea id="bio" name="bio" placeholder="" rows="4"> {{request.user.bio}} </textarea>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="github">GitHub URL</label>
+              <input type="url" id="github" name="github" value="{{request.user.github_url}}">
+            </div>
+            <div class="form-group">
+              <label for="linkedin">LinkedIn URL</label>
+              <input type="url" id="linkedin" name="linkedin" value="{{request.user.linkedin_url}}">
+            </div>
+          </div>
+
+          <div class="save-row">
+            <button type="button" class="btn" style="color: black;">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
+          </div>
+        </form>
+      </section>
+
+      <form action="/save-tech-stack/" method="post">
+        {% csrf_token %}
+      <section class="panel">
+        <div class="panel-header">
+          <h2>Skills &amp; stack</h2>
+        </div>
+        <div class="form-group" data-tag-editor style="margin-bottom: 0;">
+          <div class="tag-editor">
+            {% if tech_stack != '' %}
+            {% for items in tech_stack %}
+              <span class="tag-pill">{{items}} <button type="button" class="tag-remove" aria-label="Remove {{items.stack_name}}">×</button></span>
+              {% endfor %}
+           
+            {% endif %}
+            <!-- <span class="tag-pill">Go <button type="button" class="tag-remove" aria-label="Remove Go">×</button></span>
+            <span class="tag-pill">PostgreSQL <button type="button" class="tag-remove" aria-label="Remove PostgreSQL">×</button></span>
+            <span class="tag-pill">Kafka <button type="button" class="tag-remove" aria-label="Remove Kafka">×</button></span>
+            <span class="tag-pill">React <button type="button" class="tag-remove" aria-label="Remove React">×</button></span> -->
+          </div>
+          <input type="text" data-tag-input placeholder="Type a skill and press Enter">
+          <input type="hidden" name="tags" id="tags-hidden">
+        </div>
+        <div class="save-row">
+          <button type="submit" class="btn btn-primary">Save skills</button>
+        </div>
+      </section>
+      </form>
+
+
+      <form action="/save-professional-profile/" method="post">
+        {% csrf_token %}
+      <section class="panel">
+        <div class="panel-header">
+          <h2>Professional Profile</h2>
+        </div>
+        <br>
+        <div class="form-group" data-tag-editor style="margin-bottom: 0;">
+          <label for="bio">Brief Professional Summary</label>
+            <textarea id="bio" name="p_summary" placeholder="I build backend systems that hold up under load and interfaces that get out of the way. Eight years shipping developer tools, payments infrastructure, and the occasional weekend compiler." rows="4">{{request.user.professional_summary}}</textarea>
+         
+        </div>
+        <br>
+        <div class="form-group" data-tag-editor style="margin-bottom: 0;">
+          <label for="bio">About Me</label>
+            <textarea id="bio" name="about_me" placeholder="I've spent the last eight years moving between backend infrastructure and the tools engineers use every day — usually landing wherever the two...." rows="4">{{request.user.about_me}}</textarea>
+         
+        </div>
+        <br>
+        <div class="form-group">
+          <label for="linkedin">Professional Headline</label>
+          <input type="text" id="linkedin" name="p_headline" placeholder="Systems thinking, applied to real products." value="{{request.user.professional_headlines}}">
+        </div>
+        <div class="save-row">
+          <button type="submit" class="btn btn-primary">Save Profile</button>
+        </div>
+      </section>
+      </form>
+
+
+      <section class="panel">
+        <div class="panel-header">
+          <h2>Account</h2>
+        </div>
+        <form action="/save-account/" method="post">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="account-email">Email</label>
+            <input type="email" id="account-email" name="email" value="{{request.user.email}}">
+          </div>
+          <div class="panel-header" >
+          <h3>Change Password</h3>
+          </div>
+          <div class="form-row">
+            <div class="form-group password-field">
+              <label for="new-password">Current password</label>
+              <input type="password" id="new-password" name="current-password" placeholder="Leave blank to keep current">
+              <button type="button" class="password-toggle" data-target="new-password">show</button>
+            </div>
+            <div class="form-group password-field">
+              <label for="confirm-password">New password</label>
+              <input type="password" id="confirm-password" name="new-password" placeholder="Enter new password">
+              <button type="button" class="password-toggle" data-target="confirm-password">show</button>
+            </div>
+          </div>
+          <div class="save-row">
+            <button type="submit" class="btn btn-primary">Update account</button>
+          </div>
+        </form>
+      </section>
+
+      {% if not request.user.deactivated %}
+      <section class="panel danger-zone">
+        <div class="panel-header">
+          <h2>Danger zone</h2>
+        </div>
+        <p style="margin-bottom: 16px;">Deactivating your account unpublishes your portfolio and removes it from search. This can be undone anytime.</p>
+        <button type="button" id="deactivateBtn" class="btn btn-danger">Deactivate Portfolio</button>
+      </section>
+      {% else %}
+      <section class="panel success-zone">
+        <div class="panel-header">
+          <h2>Reactivation zone</h2>
+        </div>
+        <p style="margin-bottom: 16px;">Reactivating your account publishes your portfolio and keeps it on search.</p>
+        <button type="button" id="reactivateBtn" class="btn btn-success">Reactivate Portfolio</button>
+      </section>
+      {% endif %}
+
+    </main>
+  </div>
+</div>
+
+<div class="status-bar">
+  <div class="status-left">
+    <span>⎇ main</span>
+    <span>UTF-8</span>
+    <span>● no errors</span>
+  </div>
+  <div class="status-right">
+    <span>Ln 4, Col 12</span>
+    <span data-clock>00:00 local</span>
+  </div>
+</div>
+
+<!-- Logout Modal -->
+<div class="modal-overlay" id="logoutModal">
+  <div class="logout-modal">
+
+      <div class="logout-icon"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"/>
+        <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>
+      </svg></div>
+
+      <h2>Log out?</h2>
+
+      <p>
+          Are you sure you want to log out of your account?
+      </p>
+
+      <div class="logout-actions">
+          <button class="btn-cancel" id="closeLogout">
+              Cancel
+          </button>
+
+          <a href="/logout/" class="btn-logout">
+              Log Out
+          </a>
+      </div>
+
+  </div>
+</div>
+
+
+<!-- Deactivate Modal -->
+<div class="modal-overlay" id="DeactivateModal">
+  <div class="logout-modal">
+
+      <div class="logout-icon"><svg xmlns="http://www.w3.org/2000/svg" style="color: red;" width="26" height="26" fill="currentColor" class="bi bi-x-octagon-fill" viewBox="0 0 16 16">
+        <path d="M11.46.146A.5.5 0 0 0 11.107 0H4.893a.5.5 0 0 0-.353.146L.146 4.54A.5.5 0 0 0 0 4.893v6.214a.5.5 0 0 0 .146.353l4.394 4.394a.5.5 0 0 0 .353.146h6.214a.5.5 0 0 0 .353-.146l4.394-4.394a.5.5 0 0 0 .146-.353V4.893a.5.5 0 0 0-.146-.353zm-6.106 4.5L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 1 1 .708-.708"/>
+      </svg></div>
+
+      <h2>Deactivate Portfolio?</h2>
+
+      <p>
+          Are you sure you want to deactivate your portfolio?
+      </p>
+
+      <div class="logout-actions">
+          <button class="btn-cancel" id="closeDeactivate">
+              Cancel
+          </button>
+
+          <a href="/deactivate/" class="btn-logout">
+              Deactivate
+          </a>
+      </div>
+
+  </div>
+</div>
+
+
+<!-- Reactivate Modal -->
+<div class="modal-overlay" id="ReactivateModal">
+  <div class="logout-modal">
+
+      <div class="logout-icon"><svg xmlns="http://www.w3.org/2000/svg" style="color: rgb(136, 235, 136);" width="26" height="26" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
+        <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
+      </svg></div>
+
+      <h2>Reactivate Portfolio?</h2>
+
+      <p>
+          Are you sure you want to deactivate your portfolio?
+      </p>
+
+      <div class="logout-actions">
+          <button class="btn-cancel" id="closeReactivate">
+              Cancel
+          </button>
+
+          <a href="/reactivate/" class="btn-reactivate">
+              Reactivate
+          </a>
+      </div>
+
+  </div>
+</div>
+
+
+<script>
+  const reactivateBtn = document.getElementById("reactivateBtn");
+  const reactivateModal = document.getElementById("ReactivateModal");
+  const closeReactivate = document.getElementById("closeReactivate");
+  
+  reactivateBtn.addEventListener("click", function(e){
+  
+      e.preventDefault();
+  
+      reactivateModal.classList.add("show");
+  
+  });
+  
+  closeReactivate.addEventListener("click", function(){
+  
+      reactivateModal.classList.remove("show");
+  
+  });
+  
+  reactivateModal.addEventListener("click", function(e){
+  
+      if(e.target === reactivateModal){
+  
+          reactivateModal.classList.remove("show");
+  
+      }
+  
+  });
+  
+  </script>
+
+
+<script>
+  const deactivateBtn = document.getElementById("deactivateBtn");
+  const deactivateModal = document.getElementById("DeactivateModal");
+  const closeDeactivate = document.getElementById("closeDeactivate");
+  
+  deactivateBtn.addEventListener("click", function(e){
+  
+      e.preventDefault();
+  
+      deactivateModal.classList.add("show");
+  
+  });
+  
+  closeDeactivate.addEventListener("click", function(){
+  
+      deactivateModal.classList.remove("show");
+  
+  });
+  
+  deactivateModal.addEventListener("click", function(e){
+  
+      if(e.target === deactivateModal){
+  
+          deactivateModal.classList.remove("show");
+  
+      }
+  
+  });
+  
+  </script>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+  
+      const alerts = document.querySelectorAll(".alert");
+  
+      alerts.forEach(alert => {
+  
+          const closeBtn = alert.querySelector(".alert-close");
+  
+          closeBtn.addEventListener("click", () => {
+              alert.remove();
+          });
+  
+          setTimeout(() => {
+              alert.style.transition = "opacity .4s ease";
+              alert.style.opacity = "0";
+  
+              setTimeout(() => {
+                  alert.remove();
+              }, 400);
+  
+          }, 5000);
+  
+      });
+  
+  });
+  </script>
+
+
+<script>
+const logoutBtn = document.getElementById("logoutBtn");
+const logoutModal = document.getElementById("logoutModal");
+const closeLogout = document.getElementById("closeLogout");
+
+logoutBtn.addEventListener("click", function(e){
+
+    e.preventDefault();
+
+    logoutModal.classList.add("show");
+
+});
+
+closeLogout.addEventListener("click", function(){
+
+    logoutModal.classList.remove("show");
+
+});
+
+logoutModal.addEventListener("click", function(e){
+
+    if(e.target === logoutModal){
+
+        logoutModal.classList.remove("show");
+
+    }
+
+});
+
+</script>
+
+<script>
+
+const changePhotoBtn = document.getElementById("changePhotoBtn");
+const photoInput = document.getElementById("profilePhotoInput");
+const avatarPreview = document.getElementById("avatarPreview");
+
+changePhotoBtn.addEventListener("click", () => {
+
+    photoInput.click();
+
+});
+
+photoInput.addEventListener("change", function(){
+
+    const file = this.files[0];
+
+    if(!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = function(e){
+
+        avatarPreview.innerHTML = `
+            <img src="${e.target.result}" alt="Profile Photo">
+        `;
+
+    };
+
+    reader.readAsDataURL(file);
+
+});
+</script>
+
+<script src="{% static 'auth_script.js' %}"></script>
+</body>
+</html>
