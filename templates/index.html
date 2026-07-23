@@ -76,7 +76,9 @@
           <span class="terminal-dot green"></span>
           <span class="terminal-title">workspace.jpg</span>
         </div>
+        {% if user.profile_image %}
         <img src="{{user.profile_image.url}}" style="border-radius: 15px;" alt="Jordan's dual-monitor development setup, mid-session">
+        {% endif %}
       </div>
       <p class="eyebrow">about</p>
       <h2> {{user.professional_headlines}} </h2>
