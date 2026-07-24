@@ -16,21 +16,24 @@
    Design tokens
    ========================================================================== */
 :root {
-  --bg: #0f1419;
-  --bg-elevated: #161b22;
-  --bg-inset: #0b0f13;
-  --border: #262d38;
-  --border-soft: #1c222c;
+  --bg: #f6f8fb;
+  --bg-elevated: #ffffff;
+  --bg-inset: #eef2f8;
+  --border: #dbe3ee;
+  --border-soft: #e7edf5;
 
-  --text-primary: #e8eaed;
-  --text-secondary: #8b95a1;
-  --text-faint: #556070;
+  --text-primary: #12192b;
+  --text-secondary: #545f75;
+  --text-faint: #8892a5;
 
-  --accent-amber: #e8a33d;
-  --accent-amber-dim: #e8a33d33;
-  --accent-teal: #5ec8d8;
-  --accent-teal-dim: #5ec8d833;
-  --accent-green: #6fcf97;
+  --accent-amber: #f5900a;
+  --accent-amber-dim: #f5900a1f;
+  --accent-teal: #0891b2;
+  --accent-teal-dim: #0891b21f;
+  --accent-green: #16a34a;
+  --accent-green-dim: #16a34a1f;
+  --accent-red: #e11d48;
+  --accent-red-dim: #e11d481a;
 
   --font-display: "Space Grotesk", sans-serif;
   --font-body: "Inter", sans-serif;
@@ -39,6 +42,8 @@
   --radius-sm: 4px;
   --radius-md: 8px;
   --max-width: 1120px;
+  --shadow-soft: 0 20px 45px -20px rgba(18, 25, 43, 0.14);
+  --shadow-pop: 0 20px 40px -18px rgba(18, 25, 43, 0.18);
 }
 
 /* ==========================================================================
@@ -201,7 +206,7 @@ code{
 
   z-index:9999;
 
-  background:rgba(15,20,25,.92);
+  background:rgba(255,255,255,.85);
 
   backdrop-filter:blur(10px);
 
@@ -299,7 +304,7 @@ code{
 
   background:none;
 
-  color:white;
+  color:var(--text-primary);
 
   cursor:pointer;
 
@@ -370,8 +375,8 @@ code{
 }
 
 .btn-primary:hover {
-  background: #f0ae4d;
-  border-color: #f0ae4d;
+  background: #d97e06;
+  border-color: #d97e06;
 }
 
 /* Terminal window */
@@ -380,7 +385,7 @@ code{
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   overflow: hidden;
-  box-shadow: 0 20px 60px -20px rgba(0, 0, 0, 0.6);
+  box-shadow: var(--shadow-pop);
 }
 
 .terminal-bar {
@@ -980,7 +985,7 @@ footer.site-footer p {
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   overflow: hidden;
-  box-shadow: 0 20px 60px -20px rgba(0, 0, 0, 0.6);
+  box-shadow: var(--shadow-pop);
 }
 
 .auth-card .terminal-bar {
@@ -1260,7 +1265,7 @@ footer.site-footer p {
   background: var(--bg-elevated);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-  box-shadow: 0 20px 60px -20px rgba(0, 0, 0, 0.6);
+  box-shadow: var(--shadow-pop);
 
 }
 
@@ -1662,7 +1667,7 @@ footer.site-footer p {
 }
 
 .stat-delta.down {
-  color: #e5636b;
+  color: var(--accent-red);
 }
 
 .live-dot {
@@ -1730,19 +1735,29 @@ footer.site-footer p {
 
 }
 
-.chart-wrapper{
+/* .chart-wrapper{
 
   width:100%;
 
   overflow-x:auto;
 
+} */
+
+.chart-wrapper{
+
+position:relative;
+
+width:100%;
+
+height:320px;
+
 }
 
 .chart-wrapper canvas{
 
-  width:100% !important;
+width:100% !important;
 
-  height:auto !important;
+height:100% !important;
 
 }
 
@@ -1776,7 +1791,7 @@ footer.site-footer p {
 }
 
 .data-table tr.unread {
-  background: rgba(232, 163, 61, 0.05);
+  background: rgba(245, 144, 10, 0.07);
 }
 
 .data-table tr.unread td.name-cell {
@@ -1834,7 +1849,7 @@ table{
 }
 
 .badge-pill.published {
-  background: rgba(111, 207, 151, 0.12);
+  background: var(--accent-green-dim);
   color: var(--accent-green);
 }
 
@@ -2081,7 +2096,7 @@ table{
 }
 
 .row-actions .danger-link {
-  color: #e5636b;
+  color: var(--accent-red);
 }
 
 /* Radio / segmented control */
@@ -2237,21 +2252,21 @@ table{
 }
 
 .danger-zone {
-  border: 1px solid rgba(229, 99, 107, 0.4);
+  border: 1px solid rgba(225, 29, 72, 0.35);
 }
 
 .danger-zone .panel-header h2 {
-  color: #e5636b;
+  color: var(--accent-red);
 }
 
 .btn-danger {
-  border-color: #e5636b;
-  color: #e5636b;
+  border-color: var(--accent-red);
+  color: var(--accent-red);
 }
 
 .btn-danger:hover {
-  background: rgba(229, 99, 107, 0.1);
-  border-color: #e5636b;
+  background: var(--accent-red-dim);
+  border-color: var(--accent-red);
 }
 
 .save-row {
@@ -2308,7 +2323,7 @@ table{
 
       z-index:10000;
 
-      box-shadow:0 20px 40px rgba(0,0,0,.35);
+      box-shadow: var(--shadow-pop);
 
   }
 
@@ -2948,6 +2963,45 @@ table{
 }
 
 }
+
+.portfolio-actions{
+
+display:flex;
+
+gap:10px;
+
+flex-wrap:wrap;
+
+}
+
+#copyPortfolioLink{
+
+display:flex;
+
+align-items:center;
+
+gap:8px;
+
+}
+
+@media(max-width:768px){
+
+.portfolio-actions{
+
+width:100%;
+
+}
+
+.portfolio-actions .btn{
+
+flex:1;
+
+justify-content:center;
+height: 60px;
+
+}
+
+}
 </style>
 </head>
 <body>
@@ -2962,7 +3016,25 @@ table{
       <li><a href="/experiences/" >Experiences</a></li>
       <li><a href="/profile/" >Profile</a></li>
       <li><a href="/{{request.user.first_name}}{{request.user.last_name}}/{{request.user.user_id}}" target="_blank" rel="noopener">View live site ↗</a> </li>
-      </ul>
+      <div class="portfolio-actions"> 
+      <button
+      id="copyPortfolioLink"
+      class="btn btn-outline-primary">
+
+      <i class="bi bi-clipboard"></i>
+
+      <span class="hide-mobil">
+          Copy Link
+      </span>
+
+  </button>  
+    </div>
+    </ul>
+      <!-- <div class="portfolio-actions"> -->
+    
+       
+    
+    <!-- </div> -->
     </div>
   </nav>
 
@@ -3000,7 +3072,7 @@ table{
           {% if percentage_change >= 0 %}
           <span class="stat-delta">↑ {{percentage_change}}% this week</span>
           {% else %}
-          <span class="stat-delta" style="color: red;">
+          <span class="stat-delta" style="color: var(--accent-red);">
             ↓ {{ percentage_change|floatformat:1|cut:"-" }}% this week
         </span>
         {% endif %}
@@ -3011,7 +3083,7 @@ table{
           {% if percentage_change >= 0 %}
           <span class="stat-delta">↑ {{percentage_change}}% vs. last week</span>
           {% else %}
-          <span class="stat-delta" style="color: red;">
+          <span class="stat-delta" style="color: var(--accent-red);">
             ↓ {{ percentage_change|floatformat:1|cut:"-" }}% vs. last week
         </span>
         {% endif %}
@@ -3022,7 +3094,7 @@ table{
           {% if current_week_contacts > 0 %}
           <span class="stat-delta">↑ {{current_week_contacts}} this week</span>
           {% else %}
-          <span class="stat-delta" style="color: red;">
+          <span class="stat-delta" style="color: var(--accent-red);">
             ↓ 0 this week
         </span>
           {% endif %}
@@ -3049,7 +3121,9 @@ table{
           <div class="bar-col"><div class="bar" style="height: 100%;" title="Sun — 338 views"></div><span class="bar-label">Sun</span></div>
         </div> -->
 
-        <canvas id="viewsChart"></canvas>
+        <div class="chart-wrapper">
+          <canvas id="viewsChart"></canvas>
+      </div>
       </section>
 
       <section class="quick-actions">
@@ -3157,8 +3231,7 @@ table{
             <div class="row-actions">
               {% if page_obj.has_previous %}
               <a href="?page={{ page_obj.previous_page_number }}"
-                  class="btn"
-                  style="color:black; background-color: white;">
+                  class="btn">
                   ← Previous
               </a>
               {% else %}
@@ -3170,8 +3243,7 @@ table{
               {% if page_obj.has_next %}
               <a
                   href="?page={{ page_obj.next_page_number }}"
-                  class="btn"
-                  style="color:black; background-color: white;">
+                  class="btn">
                   Next →
               </a>
               {% else %}
@@ -3202,7 +3274,7 @@ table{
       <p id="modal-message">Message content.</p>
       <div class="save-row">
         <button type="button" class="btn btn-danger" id="modal-delete">Delete</button>
-        <button type="button" style="color: black;" class="btn" id="modal-toggle-read">Mark as unread</button>
+        <button type="button" class="btn" id="modal-toggle-read">Mark as unread</button>
         <a href="#" class="btn btn-primary" id="modal-reply">Reply by email →</a>
       </div>
     </div>
@@ -3232,24 +3304,101 @@ table{
 {{ values|json_script:"values-data" }}
 
 
+
+
+
+<script>
+
+document
+.getElementById("copyPortfolioLink")
+.addEventListener("click", async () => {
+
+    const url =
+        window.location.origin +
+        "/{{request.user.first_name}}{{request.user.last_name}}/{{request.user.user_id}}";
+
+    try{
+
+        await navigator.clipboard.writeText(url);
+
+        const btn = document.getElementById("copyPortfolioLink");
+
+        btn.innerHTML =
+        '<i class="bi bi-check-lg"></i> <span class="hide-mobile">Copied!</span>';
+
+        setTimeout(()=>{
+
+            btn.innerHTML =
+            '<i class="bi bi-clipboard"></i> <span class="hide-mobile">Copy Link</span>';
+
+        },2000);
+
+    }
+
+    catch(err){
+
+        alert("Unable to copy link.");
+
+    }
+
+});
+
+</script>
+
+
 <script>
 const labels = JSON.parse(document.getElementById("labels-data").textContent);
 const values = JSON.parse(document.getElementById("values-data").textContent);
 
 const ctx = document.getElementById("viewsChart");
 
-new Chart(ctx, {
+if (window.viewsChart instanceof Chart) {
+    window.viewsChart.destroy();
+}
+
+window.viewsChart = new Chart(ctx, {
     type: "bar",
+
     data: {
-        labels: labels,
+        labels,
         datasets: [{
             label: "Views",
-            data: values
+            data: values,
+            backgroundColor: "#0891b2",
+            hoverBackgroundColor: "#f5900a",
+            borderRadius: 8,
+            maxBarThickness: 40
         }]
+    },
+
+    options: {
+
+        responsive: true,
+        maintainAspectRatio: false,
+
+        animation: false,
+
+        plugins: {
+            legend: {
+                display: false
+            }
+        },
+
+        scales: {
+
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    precision: 0
+                }
+            }
+
+        }
+
     }
+
 });
 </script>
-
 <!-- <script>
   const labels = {{ labels|safe }};
   const values = {{ values|safe }};
